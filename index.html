@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <title>Three Hundred Prototypes :: Engine: Comic Engine</title>
+        <script type='text/javascript' src='js/common/image.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/common/sprite.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/common/sprout.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/common/sproutTemplate.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/actor.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/backdrop.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/scene.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/panel.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/comic.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/comic/data_init.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/data/data_test.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/main.js' charset='utf-8'></script>
+        <style>
+        	.container {
+        		width: 100%;
+        		margin-bottom: 1em;
+        	}
+        	.container > canvas {
+        		float: left;
+        	}
+        	.container > div {
+        		width: calc(100% - 640px);
+        		float: left;
+        		position: relative;
+        	}
+        	.container:after {
+        		clear: both;
+        	}
+        	
+        	textarea {
+        		width: 100%;
+        		height: 425px; -moz-tab-size:4; tab-size:4; margin: 0;
+        	}
+        	
+        	.doc {
+        		margin: 0 auto;
+        		padding-left: 1em;
+        	}
+        	.doc h2 {
+        		margin-left: -1em;
+        	}
+        	.doc div {
+        		padding-left: 1em;
+        	}
+        	code {
+        		background-color: Gainsboro;
+        		border: 1px solid Silver;
+        		border-radius: 2px;
+        		padding: 2px;
+        	}
+        	div > code {
+        		display: block;
+        	}
+        	.doc div {
+        		border-left: 1px solid Gainsboro;
+        	}
+        	pre {
+        		margin: 0;
+        	}
+        </style>
+    </head>
+
+    <body onload='load();'>
+        <div class="container">
+            <canvas id="TheCanvas" width="640" height="448"></canvas>
+            <div>
+	            <textarea id="sceneTextArea"></textarea>
+	            <br>
+	            <button onclick="loadSceneJSON()">Load Comic JSON</button>
+	            
+		        <ul>
+		            <li>Source : on <a href="https://github.com/yosko/ecomic">github.com</a> (original version: <a href="http://www.squidi.net/threep/eComic/index.php">squidi.net</a>)</li>
+		            <li>Type '1' - '6' to show the designated comic (if there are that many). Default testscene.js only includes 2 sample comics.</li>
+		            <li>Type 'X' to take a screenshot and turn the canvas into an image, opened in another tab/window.</li>
+		            <li>Type 'Q' to turn off backgrounds.</li>
+		            <li>Type 'W' to turn off drop shadows.</li>
+		            <li>Feel free to modify the JSON file loaded into the text area. Press the button "load Comic JSON" to reload it and rebuild all the comics.</li>
+		        </ul>
+            </div>
+        </div>
+    </body>
+</html>

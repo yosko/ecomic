@@ -1,0 +1,7 @@
+# Ignore everything
+*
+# But not these files
+!.gitignore
+!bits-maxim.png
+!masthead.png
+!place/warguild.png
