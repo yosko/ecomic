@@ -1,11 +1,25 @@
 const FRAMES_PER_SEC = 30;
 const GLOBAL_PIXEL_SCALE = 2;
 
-var gMastheadImage = "img/masthead.png";
+var gCustomConfig;
+
+var gData;
+var gBitsFile;
+var gBackdropFile;
+var gMastheadImage;
+var gSceneFile;
 var gCurrentComic;
 
 function load()
 {
+	if (gCustomConfig == false) {
+		gData = gData_Test;
+		gBitsFile = "img/bits-maxim.png";
+		gBackdropFile = "img/place/warguild.png";
+		gMastheadImage = "img/masthead.png";
+		gSceneFile = "js/data/data_testscene.js";
+	}
+	
 	PrototypeApp();
 }
 
@@ -153,7 +167,9 @@ function PrototypeApp()
 	            }
 	        }
 	    };
-	    httpRequest.open('GET', path);
+	    
+	    var cacheOverride = "?rand="+new Date().getTime();
+	    httpRequest.open('GET', path+cacheOverride);
 	    httpRequest.send();
 	}
 
@@ -162,7 +178,7 @@ function PrototypeApp()
 	//---------------------------------------------------------------------------
 	function initializeGame()
 	{
-		initDataFile( gData_Test );
+		initDataFile( gData );
 
 		//ImageDB_dump();
 		//SproutDB_dump();
@@ -177,10 +193,10 @@ function PrototypeApp()
 		//setInterval( update, 1000/FRAMES_PER_SEC );
 	}
 
-	prepareToLoadImage( "img/bits-maxim.png" );
-	prepareToLoadImage( "img/place/warguild.png" );
+	prepareToLoadImage( gBitsFile );
+	prepareToLoadImage( gBackdropFile );
 	prepareToLoadImage( gMastheadImage );
-	fetchDefaultSceneFile("js/data/data_testscene.js");
+	fetchDefaultSceneFile( gSceneFile );
 
 	drawLoadScreen();
 }

@@ -1,17 +1,17 @@
 Comic Engine
 =====
 
-Ease generation of pixel art webcomic strips/panels using sprites/sprouts. Once configured, and throught the use of a single and relatively simple JSON file, this engine an:
+Easy generation of pixel art webcomic strips/panels using sprites/sprouts. Once configured, and through the use of a single and relatively simple JSON file, this engine can:
 * Define the number of panels, their width, their row
 * Define scenes and backdrops
-* Define actors present and scene used in each panel
+* Define actors and scene used in each panel
 * Define the template (group of properly order/aligned sprouts) used for the visual representation of each actor
-* Update scene focus, backdrops elements, actors position/representation in each panel
+* Update scene focus, backdrop elements, actors position/representation in each panel
 * Keep a persistance of each update, so that every update to a panel will be applied to every following panel using this scene
 
 ## Credits and Licence
 
-This Javascript based comic engine is based on the work of Sean Howard at [squidi.net](http://www.squidi.net/threep/eComic/index.php). As he mentions here, this code was //PUBLIC DOMAIN and may be used for any reason and in any manner desired. Just don't be a jerk about it//. The initial commit on this repository is Sean Howard's work untouched.
+This Javascript based comic engine is based on the work of Sean Howard at [squidi.net](http://www.squidi.net/threep/eComic/index.php). As he mentions there, this code is *PUBLIC DOMAIN and may be used for any reason and in any manner desired. Just don't be a jerk about it*. The initial commit on this repository is Sean Howard's work untouched.
 
 Unless stated otherwise explicitely, every updates here are also released to the PUBLIC DOMAIN.
 
