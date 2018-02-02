@@ -182,6 +182,9 @@ Backdrop.prototype.cloneDefaults = function()
 //..
 Backdrop.prototype.sweetSpot = function( sweetSpotName )
 {
+	if (typeof this.sweetSpots[sweetSpotName] === "undefined"){
+	    console.log('error: sweetSpot "'+sweetSpotName+'" not found for backdrop "'+this.name+'".');
+	}
 	return this.sweetSpots[sweetSpotName];
 }
 

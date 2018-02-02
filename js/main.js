@@ -12,7 +12,7 @@ var gCurrentComic;
 
 function load()
 {
-	if (gCustomConfig == false) {
+	if ( !gCustomConfig ) {
 		gData = gData_Test;
 		gBitsFile = "img/bits-maxim.png";
 		gBackdropFile = "img/place/warguild.png";

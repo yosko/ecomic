@@ -138,6 +138,9 @@ Scene.prototype.addActor = function( actorName, actor )
 
 Scene.prototype.actorWithName = function( actorName )
 {
+	if (typeof this.actors[actorName] === "undefined"){
+	    console.log('error: actor "'+actorName+'" not found for scene "'+this.name+'".');
+	}
 	return this.actors[actorName];
 }
 

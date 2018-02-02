@@ -58,7 +58,10 @@ Actor.prototype.applyTemplate = function( templateName )
 	var classTemplateName = this.templateName + "_" + templateName;
 	var template = SproutTemplateDB_templateWithName(classTemplateName);
 	if( !template ) template = SproutTemplateDB_templateWithName(templateName);
-	if( !template ) return;
+	if( !template ) {
+	    console.log('error: no template found with name "'+classTemplateName+'" or "'+templateName+'".');
+		return;
+	}
 
 	template.applyTo(this.sproutKey);
 }
