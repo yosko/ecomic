@@ -3,9 +3,6 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 var gComicDB = [];
 
-var comicWidths = [640];
-var comicHeights = [252, 448, 644, 844]
-
 function ComicDB_comicWithIndex( index )
 {
 	var comic;
@@ -60,8 +57,8 @@ function Comic( name, numRows )
 {
 	this.name = name;
 	this.rows = numRows;
-	this.width = comicWidths[0];
-	this.height = comicHeights[numRows-1];
+	this.width = gSettings.ComicWidth;
+	this.height = gSettings.ComicHeight(numRows);
 	this.panels = [];
 }
 

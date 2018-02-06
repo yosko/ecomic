@@ -1,4 +1,4 @@
-var gData_Test = {
+var gData_Default = {
 	defaultImage: "img/bits-maxim.png",
 	sprouts: {
 		"HUMAN_ROOT" : {

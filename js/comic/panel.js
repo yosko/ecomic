@@ -1,8 +1,3 @@
-var panelCols =    [  5,  83, 161, 239 ];
-var panelRows =    [ 25, 123, 221, 319 ];
-var panelWidths =  [ 75, 153, 231, 309 ];
-var panelHeights = [ 95, 193, 291, 389 ];
-
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // ComicPanel
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,8 +6,8 @@ function ComicPanel()
 	this.scene = null;
 	this.screenx = 5;
 	this.screeny = 25;
-	this.frameWidth = panelWidths[0];
-	this.frameHeight = panelHeights[0];
+	this.frameWidth = gSettings.PanelWidth();
+	this.frameHeight = gSettings.PanelHeight();
 	this.scenex = 0;
 	this.sceney = 0;
 	this.borderSize = 1;
@@ -48,20 +43,16 @@ ComicPanel.prototype.occupyPanels = function( panelsWide, panelsHigh )
 	if( panelsHigh == undefined ) panelsHigh = 1;
 	if( panelsHigh <= 0 ) panelsHigh = 1;
 	if( panelsWide <= 0 ) panelsWide = 1;
-	if( panelsHigh > panelHeights.length ) panelsHigh = panelHeights.length;
-	if( panelsWide > panelWidths.length ) panelsWide = panelWidths.length;
-	this.frameWidth = panelWidths[panelsWide-1];
-	this.frameHeight = panelHeights[panelsHigh-1];
+	this.frameWidth = gSettings.PanelWidth(panelsWide-1);
+	this.frameHeight = gSettings.PanelHeight(panelsHigh-1);
 }
 
 ComicPanel.prototype.setPanelAt = function( gridx, gridy )
 {
 	if( gridx == undefined ) gridx = 0;
 	if( gridy == undefined ) gridy = 0;
-	if( gridx >= panelCols.length ) gridx = panelCols.length - 1;
-	if( gridy >= panelRows.length ) gridy = panelRows.length - 1;
-	this.screenx = panelCols[gridx];
-	this.screeny = panelRows[gridy];
+	this.screenx = gSettings.PanelX(gridx);
+	this.screeny = gSettings.PanelY(gridy);
 }
 
 ComicPanel.prototype.bindFocus = function()

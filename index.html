@@ -14,16 +14,14 @@
         <script type='text/javascript' src='js/comic/comic.js' charset='utf-8'></script>
         <script type='text/javascript' src='js/comic/data_init.js' charset='utf-8'></script>
         <script type='text/javascript' src='js/data/data_test.js' charset='utf-8'></script>
+        <script type='text/javascript' src='js/main.js' charset='utf-8'></script>
         <script>
-        	var gCustomConfig = true;
         	function defaultBehavior() {
         		console.log('"js/custom.js" not found: default behavior applied');
-        		gCustomConfig = false;
         		return true;
         	}
         </script>
         <script type='text/javascript' src='js/data/custom.js' onerror="defaultBehavior()"></script>
-        <script type='text/javascript' src='js/main.js' charset='utf-8'></script>
         <style>
         	body, textarea {
         		color: white;

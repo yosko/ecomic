@@ -1,23 +1,93 @@
-const FRAMES_PER_SEC = 30;
-const GLOBAL_PIXEL_SCALE = 2;
-
-var gCustomConfig;
-
-var gData;
-var gBitsFile;
-var gBackdropFile;
-var gMastheadImage;
-var gSceneFile;
+// keep track of the currently displayed comic
 var gCurrentComic;
+
+// data object
+var gData;
+
+// settings (can be overriden)
+var gSettings = {
+	// Data files and images
+	"BitsFile": "img/bits-maxim.png",
+	"BackdropFile": "img/place/warguild.png",
+	"MastheadImage": "img/masthead.png",
+	"SceneFile": "js/data/data_testscene.js",
+
+	// values that won't be scaled
+	"FramesPerSecond": 30,
+	"HeaderHeight": 48,
+	"ComicWidth": 640,
+	"GlobalPixelScale": 2, // zoom
+
+	// values that will be scaled (multiplied by gSettings.GlobalPixelScale)
+	"PanelRatio": 3.8 / 3, // panel size is {75,95} on Sean Howard's comics, which is close to 4/3 but not quite
+	"BorderSize": 1,
+	"PanelMargin": 1, // margin between panels
+	"ComicMargin": 4, // margin on the left, right and bottom of each comic
+	"PanelsPerRow": 4,
+	
+	PanelWidth: function(gridWidth = 0) {
+		if (gridWidth > 0) {
+    		//return this.PanelX(gridWidth) - this.BorderSize * 2 - this.PanelMargin;
+    		return this.PanelWidth(gridWidth-1) + this.PanelWidth() + this.BorderSize * 2 + this.PanelMargin;
+		} else {
+    		return Math.floor((this.ComicWidth / this.GlobalPixelScale - this.ComicMargin * 2 - this.PanelMargin * (this.PanelsPerRow-1) - this.BorderSize * (this.PanelsPerRow*2)) / this.PanelsPerRow);
+		}
+    },
+	PanelHeight: function(gridHeight = 0) {
+		if (gridHeight > 0) {
+    		return this.PanelHeight(gridHeight-1) + this.PanelHeight() + this.BorderSize * 2 + this.PanelMargin;
+		} else {
+    		return Math.floor(this.PanelWidth() * this.PanelRatio);
+		}
+    },
+	ComicHeight: function(nbRows = 2) {
+		var unscaledPartHeight = this.PanelHeight() * nbRows
+    		+ this.BorderSize * 2 * nbRows
+    		+ this.PanelMargin * (nbRows - 1)
+    		+ this.ComicMargin;
+    	
+    	// if unscaled height is odd, we should round it up to an even number
+    	if (unscaledPartHeight % 2 !== 0) {
+    		unscaledPartHeight++;
+    	}
+    	
+    	return this.HeaderHeight + this.GlobalPixelScale * unscaledPartHeight;
+    },
+    ComicWidths: function() {
+    	return [gSettings.RowWidth * gSettings.GlobalPixelScale];
+    },
+    PanelX: function(gridX) {
+    	return this.ComicMargin
+    		+ this.BorderSize * (1 + gridX * 2)
+    		+ gridX * (this.PanelMargin + this.PanelWidth());
+    },
+    PanelY: function(gridY) {
+    	return Math.floor(this.HeaderHeight / 2)
+    		+ this.BorderSize * (1 + gridY * 2)
+    		+ gridY * (this.PanelMargin + this.PanelHeight());
+    }
+
+/*
+
+var gPanelWidth = Math.floor((gRowWidth - gComicMargin * 2 - gPanelMargin * (gPanelsPerRow-1) - gBorderSize * (gPanelsPerRow*2)) / gPanelsPerRow);
+var gPanelHeight = Math.floor(gPanelWidth * gPanelRatio);
+
+
+comicWidths = [gConfig.ComicWidth * gGlobalPixelScale];
+comicHeights = [
+	gHeaderHeight + gGlobalPixelScale * (),
+	,
+	,
+	
+];
+*/
+};
 
 function load()
 {
-	if ( !gCustomConfig ) {
-		gData = gData_Test;
-		gBitsFile = "img/bits-maxim.png";
-		gBackdropFile = "img/place/warguild.png";
-		gMastheadImage = "img/masthead.png";
-		gSceneFile = "js/data/data_testscene.js";
+	// if gData was not set through custom.js, use the default gData
+	if ( typeof(gData) === "undefined" ) {
+		gData = gData_Default;
 	}
 	
 	PrototypeApp();
@@ -40,7 +110,7 @@ function drawScreen()
 
 	canvasContext.save();
 	canvasContext.imageSmoothingEnabled = false;
-	canvasContext.scale(GLOBAL_PIXEL_SCALE,GLOBAL_PIXEL_SCALE);
+	canvasContext.scale(gSettings.GlobalPixelScale, gSettings.GlobalPixelScale);
 
 	canvasContext.fillStyle = "#ffffff";
 	canvasContext.fillRect( 0, 0, w/2, h/2 );
@@ -48,7 +118,7 @@ function drawScreen()
 	gCurrentComic.draw( canvasContext );
 
 	canvasContext.restore();
-	var img = ImageDB_imageWithName(gMastheadImage);
+	var img = ImageDB_imageWithName(gSettings.MastheadImage);
 	canvasContext.drawImage( img, 0, 0 );
 }
 
@@ -190,13 +260,13 @@ function PrototypeApp()
 
 		loadSceneJSON();
 
-		//setInterval( update, 1000/FRAMES_PER_SEC );
+		//setInterval( update, 1000/gSettings.FramesPerSecond );
 	}
 
-	prepareToLoadImage( gBitsFile );
-	prepareToLoadImage( gBackdropFile );
-	prepareToLoadImage( gMastheadImage );
-	fetchDefaultSceneFile( gSceneFile );
+	prepareToLoadImage( gSettings.BitsFile );
+	prepareToLoadImage( gSettings.BackdropFile );
+	prepareToLoadImage( gSettings.MastheadImage );
+	fetchDefaultSceneFile( gSettings.SceneFile );
 
 	drawLoadScreen();
 }
