@@ -12,7 +12,7 @@ var gSettings = {
 	"MastheadImage": "img/masthead.png",
 	"SceneFile": "js/data/data_testscene.js",
 
-	// values that won't be scaled
+	// absolute numeric values
 	"FramesPerSecond": 30,
 	"HeaderHeight": 48,
 	"ComicWidth": 640,
