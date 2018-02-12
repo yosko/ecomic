@@ -30,13 +30,14 @@
         	.container {
         		width: 100%;
         		margin-bottom: 1em;
+        		display: table-row;
         	}
         	.container > canvas {
-        		float: left;
+        		display: table-cell;
         	}
         	.container > div {
-        		width: calc(100% - 640px);
-        		float: left;
+        		display: table-cell;
+        		vertical-align: top;
         		position: relative;
         	}
         	.container:after {
@@ -82,7 +83,7 @@
 
     <body onload='load();'>
         <div class="container">
-            <canvas id="TheCanvas" width="640" height="448"></canvas>
+            <canvas id="TheCanvas" width="640"></canvas>
             <div>
 	            <textarea id="sceneTextArea"></textarea>
 	            <br>
