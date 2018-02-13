@@ -95,7 +95,7 @@ var gData_Default = {
 			"BODY": {offsety:-8},
 		},
 		"MAXIM_UPSIDE_DOWN" : {
-			"BODY": {offsety:-40, vflipped: true},
+			"BODY": {offsety:-41, vflipped: true},
 		}
 	}, // end templates
 

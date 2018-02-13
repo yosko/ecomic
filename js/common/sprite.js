@@ -30,10 +30,12 @@ Sprite.prototype.draw = function( canvasContext, flipped, vflipped, alpha )
 	
 	if (flipped) {
 		canvasContext.scale(-1,1);
+		x = x-1;
 	}
 	
 	if (vflipped) {
 		canvasContext.scale(1,-1);
+		y = y-1;
 	}
 
 	if( alpha != undefined )
