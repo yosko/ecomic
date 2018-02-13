@@ -7,6 +7,7 @@ function Actor(name, templateName)
 	this.y = 0;
 	this.layer = 0;
 	this.flipped = false;
+	this.vflipped = false;
 	this.sproutKey = null;
 	this.visible = true;
 
@@ -27,6 +28,7 @@ Actor.prototype.clone = function()
 	newActor.y = this.y;
 	newActor.layer = this.layer;
 	newActor.flipped = this.flipped;
+	newActor.vflipped = this.vflipped;
 	newActor.visible = this.visible;
 
 	if( this.sproutKey )
@@ -75,5 +77,8 @@ Actor.prototype.draw = function( canvasContext )
 	var flipped = this.flipped;
 	if( rootSprout.flipped ) flipped = !flipped;
 
-	rootSprout.draw( canvasContext, this.sproutKey, flipped, 1.0);
+	var vflipped = this.vflipped;
+	if( rootSprout.vflipped ) vflipped = !vflipped;
+
+	rootSprout.draw( canvasContext, this.sproutKey, flipped, vflipped, 1.0);
 }

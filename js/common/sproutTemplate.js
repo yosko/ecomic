@@ -40,18 +40,20 @@ function SproutTemplateDB_dump()
 //		from this keyEntry. Will ignore variables on second keyEntry which are
 //		not set on this one.
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function SproutKeyEntry( sproutName, ox, oy, flipped, alpha )
+function SproutKeyEntry( sproutName, ox, oy, flipped, vflipped, alpha )
 {
 	this.sproutName = sproutName;
 	this.alpha   = 1.0;
 	this.flipped = false;
+	this.vflipped = false;
 	this.offsetx = 0;
 	this.offsety = 0;
 
-	if( ox      != undefined ) this.offsetx = ox;
-	if( oy      != undefined ) this.offsety = oy;
-	if( flipped != undefined ) this.flipped = flipped;
-	if( alpha   != undefined ) this.alpha = alpha;
+	if( ox       != undefined ) this.offsetx = ox;
+	if( oy       != undefined ) this.offsety = oy;
+	if( flipped  != undefined ) this.flipped = flipped;
+	if( vflipped != undefined ) this.vflipped = vflipped;
+	if( alpha    != undefined ) this.alpha = alpha;
 }
 
 SproutKeyEntry.prototype.clone = function()
@@ -59,6 +61,7 @@ SproutKeyEntry.prototype.clone = function()
 	var keyEntry = new SproutKeyEntry( this.sproutName );
 	keyEntry.alpha   = this.alpha;
 	keyEntry.flipped = this.flipped;
+	keyEntry.vflipped = this.vflipped;
 	keyEntry.offsetx = this.offsetx;
 	keyEntry.offsety = this.offsety;
 	return keyEntry;
@@ -67,7 +70,7 @@ SproutKeyEntry.prototype.clone = function()
 SproutKeyEntry.prototype.toString = function()
 {
 	return "[SproutKeyEntry '"+this.sproutName+"' offset("+this.offsetx+
-		","+this.offsety+") flipped:"+this.flipped+
+		","+this.offsety+") flipped:"+this.flipped+" vflipped:"+this.vflipped+
 		" alpha:"+this.alpha+"]";
 }
 
@@ -75,10 +78,11 @@ SproutKeyEntry.prototype.applyTo = function( otherKey )
 {
 	if( !otherKey ) return;
 	if( this.sproutName ) otherKey.sproutName = this.sproutName;
-	if( this.offsetx != undefined  ) otherKey.offsetx = this.offsetx;
-	if( this.offsety != undefined  ) otherKey.offsety = this.offsety;
-	if( this.alpha   != undefined  ) otherKey.alpha   = this.alpha;
-	if( this.flipped != undefined  ) otherKey.flipped = this.flipped;
+	if( this.offsetx  != undefined ) otherKey.offsetx  = this.offsetx;
+	if( this.offsety  != undefined ) otherKey.offsety  = this.offsety;
+	if( this.alpha    != undefined ) otherKey.alpha    = this.alpha;
+	if( this.flipped  != undefined ) otherKey.flipped  = this.flipped;
+	if( this.vflipped != undefined ) otherKey.vflipped = this.vflipped;
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

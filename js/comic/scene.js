@@ -99,7 +99,7 @@ Scene.prototype.dump = function( verbose )
 	{
 		var actor = this.actors[actorName];
 		console.log("    Actor '"+actor.name+"' : '"+actor.templateName+"' x:"+actor.x+
-			" y:"+actor.y+" layer:"+actor.layer+" flipped:"+actor.flipped);
+			" y:"+actor.y+" layer:"+actor.layer+" flipped:"+actor.flipped+" vflipped:"+actor.vflipped);
 		if( verbose )
 		{
 			for( var keyName in actor.sproutKey )

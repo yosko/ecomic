@@ -29,7 +29,8 @@ Features
 =====
 
 List of features that were aded here (e.g. things that differ from the original eComic):
-* ```gSettings``` object to make tweaking (sizes, ratios, path to images used, ...) easier and a bit more advanced
+* ```gSettings``` object to make tweaking (sizes, ratios, path to images used, colors, ...) easier and a bit more advanced
+* backdrop props can now be flipped horizontally and vertically
 * logging to the console of a few more detected errors
 * the documentation ([see below](#documentation))
 
@@ -338,6 +339,7 @@ List of updates to apply to the scene from this point/panel and beyond.
 ##### Actor state updates
 * ```["actorReset", "ACTOR_NAME"]```: rest actor to his/her original state.
 * ```["actorFlip", "ACTOR_NAME", BOOL_VALUE]```: indicates if actor should be horizontally flipped (change direction (s)he is looking).
+* ```["actorVerticalFlip", "ACTOR_NAME", BOOL_VALUE]```: indicates if actor should be vertically flipped (upside down).
 * ```["actorApplyState", "ACTOR_NAME", "STATE_1", "STATE_2", etc...]```: apply a list of different states to apply to the actor.
 * ```["actorSetSprout", "ACTOR_NAME", "SPROUT_KEY", "SPROUT_NAME"]```: define a specific sprout key to replace on actor with given sprout, without using a template.
 * ```["actorReset", "ACTOR_NAME", BOOL_VALUE]```: defines if actor is visible or not.

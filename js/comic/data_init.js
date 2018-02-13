@@ -73,6 +73,7 @@ function initSprouts( data, defaultImage )
 //		- offsetx
 //		- offsety
 //		- flipped
+//		- vflipped
 //		- alpha
 //-----------------------------------------------------------------------------
 //	templates: {
@@ -106,6 +107,7 @@ function initTemplateFor( data )
 		if( keyObj.offsetx != undefined ) keyEntry.offsetx = keyObj.offsetx;
 		if( keyObj.offsety != undefined ) keyEntry.offsety = keyObj.offsety;
 		if( keyObj.flipped != undefined ) keyEntry.flipped = keyObj.flipped;
+		if( keyObj.vflipped != undefined ) keyEntry.vflipped = keyObj.vflipped;
 		if( keyObj.alpha != undefined ) keyEntry.alpha = keyObj.alpha;
 		templKey.setKey( keyName, keyEntry );
 	}
@@ -267,6 +269,7 @@ function initScene( name, data )
 
 		//.. flipped
 		if( obj.flipped ) actor.flipped = true;
+		if( obj.vflipped ) actor.vflipped = true;
 
 		//.. state
 		if( obj.state )
@@ -347,6 +350,13 @@ function runPanelCommand( panel, commandArray )
 		var actorName = commandArray[1];
 		var actor = panel.scene.actorWithName(actorName);
 		actor.flipped = !actor.flipped;
+		return;
+	}
+	if( baseCommand == "actorVerticalFlip" )
+	{
+		var actorName = commandArray[1];
+		var actor = panel.scene.actorWithName(actorName);
+		actor.vflipped = !actor.vflipped;
 		return;
 	}
 	if( baseCommand == "actorMoveToSpot" )

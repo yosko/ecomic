@@ -66,18 +66,20 @@ Sprout.prototype.addLink = function( sproutName, x, y )
 	this.links.push(link);
 }
 
-Sprout.prototype.draw = function( canvasContext, sproutKey, flipped, alpha )
+Sprout.prototype.draw = function( canvasContext, sproutKey, flipped, vflipped, alpha )
 {
 	if( alpha == undefined ) alpha = 1.0;
 	if( flipped == undefined ) flipped = false;
+	if( vflipped == undefined ) vflipped = false;
 
-	if( this.sprite ) this.sprite.draw(canvasContext, flipped, alpha);
+	if( this.sprite ) this.sprite.draw(canvasContext, flipped, vflipped, alpha);
 
 	if( !sproutKey || !this.links || this.links.length == 0 ) return;
 
 	for( var i = 0; i < this.links.length; i++ )
 	{
 		var subSproutFlipped = flipped;
+		var subSproutVerticallyFlipped = vflipped;
 		var link = this.links[i];
 		if( !link ) continue;
 
@@ -94,16 +96,18 @@ Sprout.prototype.draw = function( canvasContext, sproutKey, flipped, alpha )
 		var dx = link.offsetx;
 		var dy = link.offsety;
 		if( flipped ) dx = -dx;
+		if( vflipped ) dy = -dy;
 
 		var newAlpha = alpha;
 		if( keyObj.offsetx ) dx += keyObj.offsetx;
 		if( keyObj.offsety ) dy += keyObj.offsety;
 		if( keyObj.flipped ) subSproutFlipped = !subSproutFlipped;
+		if( keyObj.vflipped ) subSproutVerticallyFlipped = !subSproutVerticallyFlipped;
 		if( keyObj.alpha   != undefined ) newAlpha = alpha * keyObj.alpha;
 
 		canvasContext.save();
 		canvasContext.translate( dx, dy );
-		sprout.draw( canvasContext, sproutKey, subSproutFlipped, newAlpha );
+		sprout.draw( canvasContext, sproutKey, subSproutFlipped, subSproutVerticallyFlipped, newAlpha );
 		canvasContext.restore();
 	}
 }
