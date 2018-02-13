@@ -10,7 +10,7 @@ function ComicPanel()
 	this.frameHeight = gSettings.PanelHeight();
 	this.scenex = 0;
 	this.sceney = 0;
-	this.borderSize = 1;
+	this.borderSize = gSettings.BorderSize;
 }
 
 ComicPanel.prototype.draw = function( canvasContext )
@@ -19,10 +19,10 @@ ComicPanel.prototype.draw = function( canvasContext )
 
 	canvasContext.save();
 
-	canvasContext.fillStyle = "#000000";
+	canvasContext.fillStyle = gSettings.borderColor;
 	canvasContext.fillRect( this.screenx - this.borderSize, this.screeny - this.borderSize,
 		this.frameWidth + 2 * this.borderSize, this.frameHeight + 2 * this.borderSize );
-	canvasContext.fillStyle = "#ffffff";
+	canvasContext.fillStyle = gSettings.backgroundColor;
 	canvasContext.fillRect( this.screenx, this.screeny, this.frameWidth, this.frameHeight );
 
 

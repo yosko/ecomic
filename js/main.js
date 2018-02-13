@@ -25,6 +25,9 @@ var gSettings = {
 	"ComicMargin": 4, // margin on the left, right and bottom of each comic
 	"PanelsPerRow": 4,
 	
+	"backgroundColor": "#ffffff",
+	"borderColor": "#000000",
+	
 	PanelWidth: function(gridWidth = 0) {
 		if (gridWidth > 0) {
     		//return this.PanelX(gridWidth) - this.BorderSize * 2 - this.PanelMargin;
@@ -98,7 +101,7 @@ function drawScreen()
 	var theCanvas = document.getElementById("TheCanvas");
 	var canvasContext = theCanvas.getContext("2d");
 	if( !gCurrentComic ) {
-		canvasContext.fillStyle = "#ffffff";
+		canvasContext.fillStyle = gSettings.backgroundColor;
 		canvasContext.fillRect( 0, 0, theCanvas.width, theCanvas.height );
 		return;
 	}
@@ -112,7 +115,7 @@ function drawScreen()
 	canvasContext.imageSmoothingEnabled = false;
 	canvasContext.scale(gSettings.GlobalPixelScale, gSettings.GlobalPixelScale);
 
-	canvasContext.fillStyle = "#ffffff";
+	canvasContext.fillStyle = gSettings.backgroundColor;
 	canvasContext.fillRect( 0, 0, w/2, h/2 );
 
 	gCurrentComic.draw( canvasContext );
