@@ -40,7 +40,7 @@ function BackdropDB_dump()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // BGProp
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function BGProp( image, framex, framey, frameWidth, frameHeight, drawx, drawy, trigger )
+function BGProp( image, framex, framey, frameWidth, frameHeight, drawx, drawy, trigger, flipped, vflipped )
 {
 	this.image = image;
 	this.framex = framex;
@@ -51,20 +51,39 @@ function BGProp( image, framex, framey, frameWidth, frameHeight, drawx, drawy, t
 	this.drawy = drawy;
 
 	if( trigger ) this.trigger = trigger;
+	this.flipped = flipped === true;
+	this.vflipped = vflipped === true;
 }
 
 BGProp.prototype.toString = function()
 {
 	return "[BGProp '"+this.trigger+"' ("+this.framex+","+this.framey+
 		","+this.frameWidth+","+this.frameHeight+") draw("+this.drawx+
-		","+this.drawy+")]";
+		","+this.drawy+(this.flipped ? " flipped":"")+(this.flipped ? " v-flipped":"")+")]";
 }
 
 BGProp.prototype.draw = function( canvasContext )
 {
+    var x, y;
+    if (this.flipped) {
+	    canvasContext.scale(-1,1);
+        x = - this.drawx - this.frameWidth;
+    	
+    } else {
+        x = this.drawx;
+    }
+    if (this.vflipped) {
+	    canvasContext.scale(1,-1);
+        y = - this.drawy - this.frameHeight;
+    	
+    } else {
+        y = this.drawy;
+    }
+    
+	
 	canvasContext.drawImage( this.image,
 		this.framex, this.framey, this.frameWidth, this.frameHeight,
-		this.drawx, this.drawy, this.frameWidth, this.frameHeight);
+		x, y, this.frameWidth, this.frameHeight);
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

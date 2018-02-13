@@ -71,6 +71,12 @@ gSettings.BorderSize = 1;   // black border around each panel (in pixels)
 gSettings.PanelMargin = 1;  // margin between panels (in pixels)
 gSettings.ComicMargin = 4;  // margin on the left, right and bottom of each comic (in pixels)
 
+// background color for the comic (and each panel if there is no background image)
+gSettings.backgroundColor = "#ffffff";
+
+// border color for each panel
+gSettings.borderColor = "#000000";
+
 // data object for sprouts, templates and (optionally) scenes
 // If not set here, then the object```gData_Default```set in ```data_test.js``` will be used.
 gData = {};
@@ -176,16 +182,16 @@ Example:
 
 Backdrops
 -----
-A backdrop is a background image depicting a place, and a number of layers in which can be placed actors or other elements of the background
+A backdrop is a background image depicting a place, and a number of layers in which can be placed actors or other specific elements of the background (called *props*)
 that can appear above actors and/or can (dis)appear.
 
 Example:
 ```js
 "WARRIORS_GUILD" : {
-    // path to the source image including background and items specific to this location
+    // path to the source image including background and props
     image: "img/place/warguild.png",
     
-    // size of the complete displayable location
+    // size of the complete displayable place
     width: 375,
     height: 95,
     
@@ -203,16 +209,20 @@ Example:
             /* backdrop */  {x:0, y:0, width:375, height:95, drawx:0, drawy:0},
         ],[ // layer 1
             {trigger:"TRIGGER_NAME", x:1, y:96, width:37, height:47, drawx:264, drawy:18},
+            {x:1, y:96, width:37, height:47, drawx:264, drawy:18, flipped:true, vflipped:true},
         ],
     ],
 },
 ```
 
-You can define multiple elements of this backdrops. These elements may represent a door, a desk, a tree or anything you like.
-* An element within layer N will always appear above the elements (and actors) of layer N-1.
-* An element within layer N will always appear under the actors of the same layer.
-* Some elements can be linked to a trigger. This mean they can appear in the scene or not, depending on the state of the trigger.
-* Each element is defined by its ```{x,y}``` coordinates (where they appear in the location image file), their ```{width,height}``` and the ```{drawx,drawy}``` coordinates where they should appear in the backdrop
+You can define multiple props for a backdrop. These props may represent a door, a desk, a tree or anything you like. The base image for the backdrop is also defined as a prop.
+* A prop within layer N will always appear above props (and actors) of layer N-1.
+* A prop within layer N will always appear under the actors of the same layer.
+* Some props can be linked to a trigger. This mean they can appear in the scene or not, depending on the state of the trigger
+  (which can be defined in the backdrops default, and then changed in the scene's ```backdropDefaults``` or even on a panel basis via ```changeBackdropState```).
+* Each prop is defined by its ```{x,y}``` coordinates (where they should appear on the image file depicting the place),
+  their ```{width,height}``` and the ```{drawx,drawy}``` coordinates where they should appear in the backdrop.
+* Each prop can be flipped horizontally by adding ```flipped:true``` and/or vertically by adding ```vflipped:true```.
 
 Scenes
 -----

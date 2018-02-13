@@ -181,7 +181,7 @@ function initBackdropFor( data, backdropName )
 			var p = layerArr[propi];
 			var bgprop = new BGProp( image,
 				p.x, p.y, p.width, p.height,
-				p.drawx, p.drawy, p.trigger );
+				p.drawx, p.drawy, p.trigger, p.flipped, p.vflipped );
 
 			backdrop.addBGProp( bgprop, i );
 		}
