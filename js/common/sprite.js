@@ -25,24 +25,16 @@ Sprite.prototype.draw = function( canvasContext, flipped, vflipped, alpha )
 
 	canvasContext.save();
 	
-	var translatex = -this.anchorx;
-	var translatey = -this.anchory;
-
-	if( flipped ) {
-		// why the -1? To account for flipping the root pixel from left to
-		// right side... I assume?
-		var anti_anchorx = this.width - this.anchorx - 1;
-		translatex = this.width - anti_anchorx;
+	var x = -this.anchorx;
+	var y = -this.anchory;
+	
+	if (flipped) {
 		canvasContext.scale(-1,1);
 	}
-
-	if( vflipped ) {
-		var anti_anchory = this.height - this.anchory - 1;
-		translatey = this.height - anti_anchory;
+	
+	if (vflipped) {
 		canvasContext.scale(1,-1);
 	}
-	
-	canvasContext.translate( translatex, translatey );
 
 	if( alpha != undefined )
 	{
@@ -51,7 +43,7 @@ Sprite.prototype.draw = function( canvasContext, flipped, vflipped, alpha )
 
 	canvasContext.drawImage( this.image,
 		this.originx, this.originy, this.width, this.height,
-		0, 0, this.width, this.height);
+		x, y, this.width, this.height);
 
 	canvasContext.restore();
 

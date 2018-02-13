@@ -93,6 +93,9 @@ var gData_Default = {
 		},
 		"MAXIM_HOVERING" : {
 			"BODY": {offsety:-8},
+		},
+		"MAXIM_UPSIDE_DOWN" : {
+			"BODY": {offsety:-40, vflipped: true},
 		}
 	}, // end templates
 

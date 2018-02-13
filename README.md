@@ -29,10 +29,12 @@ Features
 =====
 
 List of features that were aded here (e.g. things that differ from the original eComic):
-* ```gSettings``` object to make tweaking (sizes, ratios, path to images used, colors, ...) easier and a bit more advanced
-* backdrop props can now be flipped horizontally and vertically
-* logging to the console of a few more detected errors
-* the documentation ([see below](#documentation))
+* configuration: ```gSettings``` object to make tweaking (sizes, ratios, path to images used, colors, ...) easier and a bit more advanced [see below](#settings)
+* flipping:
+  * added horizontal flipping to: backdrops
+  * added vertical flipping to: sprouts, actors, backdrops
+* logging: a few more detected errors are now logged to the console
+* documentation ([see below](#documentation))
 
 Documentation
 =====
@@ -168,6 +170,7 @@ the following can be defined (all optional):
 * ```offsetx```: apply an horizontal offest to sprout key position.
 * ```offsety```: apply a vertical offest to sprout key position.
 * ```flipped```: indicates if template is flipped horizontally by default.
+* ```vflipped```: indicates if template is flipped vertically by default.
 * ```alpha```: define transparency level (between 0.0 and 1.0).
 
 Example:
@@ -252,6 +255,7 @@ or the scene file (```data_testscene.js```).
 * ```y```: coordinates where to place actor
 * ```layer```: defines in which layer the actor will appear
 * ```flipped```: indicates if actor should be flipped horizontally.
+* ```vflipped```: indicates if actor should be flipped vertically.
 * ```state```: (array) apply a list of states defined alongside with the templates
 
 Comics

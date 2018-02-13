@@ -48,6 +48,7 @@
 					"sceneUpdates": [
 						["actorFlip", "MAXIM"],
 						["actorMoveToSpot", "MAXIM", "IN_DOOR"],
+						["actorApplyState", "MAXIM", "UPSIDE_DOWN"],
 						["changeBackdropState", "DOOR", false],
 						["focusOnSpot", "IN_DOOR"],
 						["shiftFocus", -30, 0]
@@ -74,6 +75,7 @@
 					"gridLocation":[1,0],
 					"sceneUpdates": [
 						["changeBackdropState", "DOOR", true],
+						["actorReset", "MAXIM"],
 						["actorMoveToSpot", "MAXIM", "BEHIND_DESK"],
 						["focusBetween", "MAXIM3", "MAXIM2"]
 					]
