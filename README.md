@@ -22,7 +22,7 @@ This Javascript based comic engine is based on the work of Sean Howard at [squid
 As he mentions there, this code is *PUBLIC DOMAIN and may be used for any reason and in any manner desired. Just don't be a jerk about it*.
 
 The initial commit on this repository is Sean Howard's work untouched
-(except the ```index.html``` which is new, but designed to make the same use of the prototype). There is a [specific branch](/yosko/ecomic/tree/squidi) on this repo referencing only his code updates.
+(except the ```index.html``` which is new, but designed to make the same use of the prototype). There is a [specific branch](../../tree/squidi) on this repo referencing only his code updates.
 
 Unless stated otherwise explicitely, every updates here are also released to the PUBLIC DOMAIN.
 
