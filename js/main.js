@@ -116,7 +116,7 @@ function drawScreen()
 	//canvasContext.scale(gSettings.GlobalPixelScale, gSettings.GlobalPixelScale);
 
 	canvasContext.fillStyle = gSettings.backgroundColor;
-	canvasContext.fillRect( 0, 0, w/2, h/2 );
+	canvasContext.fillRect( 0, 0, w, h );
 
 	gCurrentComic.draw( canvasContext );
 

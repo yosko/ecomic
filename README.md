@@ -366,7 +366,7 @@ Defines the speech bubbles to display & there position. Uses two keys:
   * defines the style of the bubble (shape, size, position)
   * ```name```: technical name that might be refered to from ```dialogue``` later.
   * ```def```: array defining of the bubble style with, in order:
-    * bubble shape: ```bubble```, ```line```, ```box```. There seems to be code for *ceiling bubble*, but it doesn't seem to be used yet.
+    * bubble shape: ```bubble```, ```line``` (link between bubbles), ```box```. There seems to be code for *ceiling bubble*, but it doesn't seem to be used yet.
     * x position
     * y position
     * width
