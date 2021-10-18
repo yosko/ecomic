@@ -77,9 +77,9 @@ gSettings.BackdropFile = "img/place/warguild.png";
 // This is the title header that will apprear above the panels of each comic strip.
 gSettings.MastheadImage = "img/masthead.png";
 
-// path to the Javascript file describing the scenes and comics.
+// path to the JSON file describing the scenes and comics.
 // The bits file is a juxtaposition of every one of the sprites for your actors (body parts, items, etc...).
-gSettings.SceneFile = "js/data/data_testscene.js";
+gSettings.SceneFile = "js/data/data_testscene.json";
 
 // Absolute numeric values
 gSettings.FramesPerSecond = 30; // unused
@@ -270,7 +270,7 @@ Each of its part are documented below.
 
 Scenes can be defined either in the data file along with sprouts, templates and backdrops, or in the comic data file, along with comics.
 Scenes in comic file override scenes in data file. Examples can be found in the data file (```data_test.js```)
-or the scene file (```data_testscene.js```).
+or the scene file (```data_testscene.json```).
 
 ```js
 "SCENE_NAME" : {
@@ -297,7 +297,7 @@ or the scene file (```data_testscene.js```).
 
 ### Comics
 
-A comic is a page/strip. It can be constituted of one or more rows of panels Comics are defined in ```data_testscene.js```.
+A comic is a page/strip. It can be constituted of one or more rows of panels Comics are defined in ```data_testscene.json```.
 
 ```js
 "comics" : [

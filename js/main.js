@@ -10,7 +10,7 @@ var gSettings = {
 	"BitsFile": "img/bits-maxim.png",
 	"BackdropFile": "img/place/warguild.png",
 	"MastheadImage": "img/masthead.png",
-	"SceneFile": "js/data/data_testscene.js",
+	"SceneFile": "js/data/data_testscene.json",
 
 	// absolute numeric values
 	"FramesPerSecond": 30,

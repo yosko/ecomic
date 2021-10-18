@@ -3,4 +3,4 @@
 # But not these files
 !.gitignore
 !data_test.js
-!data_testscene.js
+!data_testscene.json
