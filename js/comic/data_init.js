@@ -65,7 +65,7 @@ function initSprouts( data, defaultImage )
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// init TEMPLATES
+// init Sprout TEMPLATES
 //
 //	Template Values (all optional)
 //	- SproutKey
@@ -89,7 +89,7 @@ function initSprouts( data, defaultImage )
 //		}
 //	}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function initTemplateFor( data )
+function initSproutTemplateFor( data )
 {
 	if( !data )
 	{
@@ -115,12 +115,38 @@ function initTemplateFor( data )
 	return templKey;
 }
 
-function initTemplates( data )
+function initSproutTemplates( data )
 {
 	for( var templateName in data )
 	{
-		var templ = initTemplateFor( data[templateName] );
+		var templ = initSproutTemplateFor( data[templateName] );
 		if( templ ) SproutTemplateDB_registerTemplate( templateName, templ );
+	}
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// init ACTOR TEMPLATES
+//
+//-----------------------------------------------------------------------------
+//	actorTemplates: {
+//		"MAXIM": {
+//			sproutTemplate: "MAXIM",
+//		},
+//		"MAXIM_BLUE": {
+//			sproutTemplate: "MAXIM",
+//			bubbleDefaults: {
+//				"backgroundColor":"#0000ff",
+//				"borderColor":"#ffffff",
+//				"textColor":"#ffffff"
+//			}
+//		}
+//	}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function initActorTemplates( data )
+{
+	for( var templateName in data )
+	{
+		ActorTemplateDB_registerActorTemplate( templateName, data[templateName] );
+		//ActorTemplateDB_dump();
 	}
 }
 
@@ -231,6 +257,11 @@ function initBackdrops( data )
 //					templateName":"MAXIM",
 //					x:40, y:80, layer:1, flipped:true,
 //					state:["POINTING", "ANGRY"],
+//					bubbleDefaults:{
+//						"backgroundColor":"#0000ff",
+//						"borderColor":"#ffffff",
+//						"textColor":"#ffffff",
+//					}
 //				}
 //			}
 //		}
@@ -278,10 +309,18 @@ function initScene( name, data )
 			for( var i = 0; i < arr.length; i++ )
 			{
 				var state = arr[i];
-				actor.applyTemplate(state);
+				actor.applySproutTemplate(state);
 			}
 		}
 
+		//.. bubble defaults
+		if( obj.bubbleDefaults )
+		{
+			for( var key in obj.bubbleDefaults )
+			{
+				actor.bubbleDefaults[key] = obj.bubbleDefaults[key];
+			}
+		}
 		scene.addActor( actorName, actor );
 	}
 	return scene;
@@ -299,7 +338,38 @@ function initScenes(data)
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Comics
+// Panels
+//-----------------------------------------------------------------------------
+// {
+//	"gridLocation":[0,0],
+//	"panelsWide":1,
+//	"scene":"SCENE1",
+//	"sceneUpdates": [
+//		["changeBackdropState", "DOOR", true],
+//		["focusOn", "MAXIM"]
+//	],
+//	"wordBubbles": [ [
+//			{ "name":"A", "def":["bubble", 75, 64] },
+//			{ "def":["bubbleLine", 35, 150] },
+//		],[
+//			{ "name":"BOX", "def":["bubbleBox"] }
+//		] ],
+//	"dialogue": {
+//		"A": {
+//			"speaker" : "MAXIM",
+//			"textLines" : [
+//							  "Hello, World!",
+//					   "Now is the time for all good",
+//				"men to come to the aid of their country. Friends,",
+//					   "countrymen - Lend me your ears.",
+//						  "But not your feet. You",
+//							  "can keep those."
+//			],
+//		},
+//		"BOX": {
+//			"lines": ["Previously..."],
+//		}
+//	}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function runPanelCommand( panel, commandArray )
 {
@@ -411,7 +481,7 @@ function runPanelCommand( panel, commandArray )
 		var actor = panel.scene.actorWithName(actorName);
 		for( var i = 2; i < commandArray.length; i++ )
 		{
-			actor.applyTemplate(commandArray[i]);
+			actor.applySproutTemplate(commandArray[i]);
 		}
 		return;
 	}
@@ -437,6 +507,67 @@ function runPanelCommand( panel, commandArray )
 	// actorFlipSprout "MAXIM" "HEAD"
 
 	console.log("Unknown command: "+baseCommand);
+}
+
+//--------------------------------------------
+// initializeBubbleFromCommand
+//
+//	["bubble", x, y, wradius, hradius]
+//	["box", x, y, width, height]
+//	["line", srcx, srcy, dstx, dsty]
+//	["ceiling", x, y]
+//
+//--------------------------------------------
+function initializeBubbleFromCommand( commandArray )
+{
+	var baseCommand = commandArray[0];
+
+	if( baseCommand == "bubble" )
+	{
+		var x = commandArray[1];
+		var y = commandArray[2];
+		var wradius = commandArray[3];
+		var hradius = commandArray[4];
+		if( commandArray[1] == undefined ) x = 0;
+		if( commandArray[2] == undefined ) y = 0;
+		if( commandArray[3] == undefined ) wradius = 1;
+		if( commandArray[4] == undefined ) hradius = 1;
+
+		var bubble = new WordBubble( x, y, wradius, hradius );
+		return bubble;
+	}
+
+	if( baseCommand == "box" )
+	{
+		var x = commandArray[1];
+		var y = commandArray[2];
+		var width = commandArray[3];
+		var height = commandArray[4];
+		if( commandArray[1] == undefined ) x = 0;
+		if( commandArray[2] == undefined ) y = 0;
+		if( commandArray[3] == undefined ) width = 1;
+		if( commandArray[4] == undefined ) height = 1;
+
+		var bubble = new BubbleBox( x, y, width, height );
+		return bubble;
+	}
+
+	if( baseCommand == "line" )
+	{
+		var srcx = commandArray[1];
+		var srcy = commandArray[2];
+		var dstx = commandArray[3];
+		var dsty = commandArray[4];
+		if( commandArray[1] == undefined ) return undefined;
+		if( commandArray[2] == undefined ) return undefined;
+		if( commandArray[3] == undefined ) return undefined;
+		if( commandArray[4] == undefined ) return undefined;
+
+		var bubble = new BubbleConnectingLine( srcx, srcy, dstx, dsty );
+		return bubble;
+	}
+
+	return undefined;
 }
 
 function initComicPanel( panelObj, lastScene )
@@ -467,19 +598,62 @@ function initComicPanel( panelObj, lastScene )
 	if( panelObj.panelsHigh ) pPanelsHigh = panelObj.panelsHigh;
 	panel.occupyPanels( pPanelsWide, pPanelsHigh );
 
-	for( var i = 0; i < panelObj.sceneUpdates.length; i++ )
+	// optional
+	// Run panel commands
+	if( panelObj.sceneUpdates != undefined )
 	{
-		var commandArray = panelObj.sceneUpdates[i];
-		runPanelCommand( panel, commandArray );
+		for( var i = 0; i < panelObj.sceneUpdates.length; i++ )
+		{
+			var commandArray = panelObj.sceneUpdates[i];
+			runPanelCommand( panel, commandArray );
+		}
+
+		SceneDB_updateScene( panel.scene );
 	}
 
-	SceneDB_updateScene( panel.scene );
+	// optional
+	// initialize word bubbles
+	if( panelObj.wordBubbles != undefined )
+	{
+		var numLayers = panelObj.wordBubbles.length;
+		panel.bubbleMgr.createLayers( numLayers );
 
-	// grab head locations for word bubbles?
+		for( var layer = 0; layer < numLayers; layer++ )
+		{
+			var layerArray = panelObj.wordBubbles[layer];
+			for( var defIndex = 0; defIndex < layerArray.length; defIndex++ )
+			{
+				var defObj = layerArray[defIndex];
+
+				var bubble = initializeBubbleFromCommand(defObj.def);
+				if( bubble == undefined ) continue;
+
+				panel.bubbleMgr.addBubble( layer, bubble, defObj.name );
+			}
+		}
+	}
+
+	// optional
+	// initialize dialogue
+	if( panelObj.dialogue != undefined )
+	{
+		panel.bubbleMgr.bubbleContexts = panelObj.dialogue;
+	}
+
+	var theCanvas = document.getElementById("TheCanvas");
+	var canvasContext = theCanvas.getContext("2d");
+	panel.bubbleMgr.setupBubbles(canvasContext, panel.scene, panel.scenex, panel.sceney);
 
 	return panel;
 }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Comics
+//-----------------------------------------------------------------------------
+//	"comics" : [
+//		{ panel definition },
+//	]
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function initComics(dataArray)
 {
 	if( !dataArray ) return;
@@ -514,7 +688,8 @@ function initDataFile( jsonFile )
 
 	var img = ImageDB_imageWithName(jsonFile.defaultImage);
 	initSprouts( jsonFile.sprouts, img );
-	initTemplates( jsonFile.templates );
+	initSproutTemplates( jsonFile.sproutTemplates );
+	initActorTemplates( jsonFile.actorTemplates );
 	initBackdrops( jsonFile.backdrops );
 	initScenes( jsonFile.scenes );
 

@@ -1,4 +1,121 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// PanelBubbleManager
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+class PanelBubbleManager
+{
+	constructor()
+	{
+		this.bubbleContexts = {};
+	}
+
+	createLayers( layerCount )
+	{
+		this.layers = [];
+		for( var layer = 0; layer < layerCount; layer++ )
+		{
+			this.layers[layer] = [];
+		}
+	}
+
+	addBubble( layerID, bubble, name )
+	{
+		if( layerID < 0 || layerID >= this.layers.length ) return;
+
+		var bubbleRecord = { bubble:bubble };
+		if( name != undefined ) bubbleRecord.name = name;
+		this.layers[layerID].push(bubbleRecord);
+	}
+
+	getBubbleContext( name )
+	{
+		if( !name ) return undefined;
+		var context = this.bubbleContexts[ name ];
+		if( !context ) return undefined;
+		//console.log("found bubble context "+name);
+		return context;
+	}
+
+	setupBubbles(canvasContext, scene, scenex, sceney )
+	{
+		if( this.layers == undefined ) return;
+		canvasContext.save();
+
+		for( var layer = 0; layer < this.layers.length; layer++ )
+		{
+			var bubbleArray = this.layers[layer];
+
+			// Resize all the panels
+			for( var b = 0; b < bubbleArray.length; b++ )
+			{
+				var bubbleRecord = bubbleArray[b];
+				var bcontext = this.getBubbleContext( bubbleRecord.name );
+				bubbleRecord.bubble.resizeToText( canvasContext, bcontext )
+			}
+
+			if( scene == undefined ) continue;
+
+			for( var b = 0; b < bubbleArray.length; b++ )
+			{
+				var bubbleRecord = bubbleArray[b];
+				var bcontext = this.getBubbleContext( bubbleRecord.name );
+				if( !bcontext || bcontext.speaker == undefined ) continue;
+
+				var actor = scene.actorWithName( bcontext.speaker );
+
+				// Get bubble defaults for actors
+				if( actor.bubbleDefaults )
+				{
+					for( var key in actor.bubbleDefaults )
+					{
+						if( bcontext[key] == undefined )
+							bcontext[key] = actor.bubbleDefaults[key];
+					}
+				}
+
+				// Get talk position for actors
+				var speakerPos = actor.getSpeakerPosition();
+				bcontext["pointToX"] = (speakerPos[0] - scenex)*2;
+				bcontext["pointToY"] = (speakerPos[1] - sceney)*2;
+
+				bubbleRecord.bubble.calculatePointer( bcontext );
+			}
+		}
+		canvasContext.restore();
+	}
+
+	draw( canvasContext )
+	{
+		if( this.layers == undefined ) return;
+		canvasContext.save();
+
+		for( var layer = 0; layer < this.layers.length; layer++ )
+		{
+			var bubbleArray = this.layers[layer];
+			for( var b = 0; b < bubbleArray.length; b++ )
+			{
+				var bubbleRecord = bubbleArray[b];
+				var bcontext = this.getBubbleContext( bubbleRecord.name );
+				bubbleRecord.bubble.drawBorder( canvasContext, bcontext )
+			}
+			for( var b = 0; b < bubbleArray.length; b++ )
+			{
+				var bubbleRecord = bubbleArray[b];
+				var bcontext = this.getBubbleContext( bubbleRecord.name );
+				bubbleRecord.bubble.drawFill( canvasContext, bcontext )
+			}
+			for( var b = 0; b < bubbleArray.length; b++ )
+			{
+				var bubbleRecord = bubbleArray[b];
+				var bcontext = this.getBubbleContext( bubbleRecord.name );
+				bubbleRecord.bubble.drawText( canvasContext, bcontext )
+			}
+		}
+
+		canvasContext.restore();
+	}
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // ComicPanel
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function ComicPanel()
@@ -11,28 +128,50 @@ function ComicPanel()
 	this.scenex = 0;
 	this.sceney = 0;
 	this.borderSize = gSettings.BorderSize;
+	this.bubbleMgr = new PanelBubbleManager();
 }
 
 ComicPanel.prototype.draw = function( canvasContext )
 {
 	if( !this.scene ) return;
 
+	//..
+	//.. Draw panels and scenes in panel at small scale
+	//..
 	canvasContext.save();
+	canvasContext.scale(GLOBAL_PIXEL_SCALE,GLOBAL_PIXEL_SCALE);
 
+	// Draw panel borders
 	canvasContext.fillStyle = gSettings.borderColor;
 	canvasContext.fillRect( this.screenx - this.borderSize, this.screeny - this.borderSize,
 		this.frameWidth + 2 * this.borderSize, this.frameHeight + 2 * this.borderSize );
 	canvasContext.fillStyle = gSettings.backgroundColor;
 	canvasContext.fillRect( this.screenx, this.screeny, this.frameWidth, this.frameHeight );
 
-
+	// Clip scene to panel
 	canvasContext.translate( this.screenx, this.screeny );
 	canvasContext.beginPath();
 	canvasContext.rect(0,0,this.frameWidth, this.frameHeight);
 	canvasContext.clip();
 
+	// Draw scene within panel
 	canvasContext.translate( -this.scenex, -this.sceney );
 	this.scene.draw( canvasContext );
+
+	canvasContext.restore();
+
+	//..
+	//.. Draw Word Bubbles
+	//..
+	canvasContext.save();
+
+	// Clip word bubbles to panel
+	canvasContext.translate( this.screenx * GLOBAL_PIXEL_SCALE, this.screeny * GLOBAL_PIXEL_SCALE );
+	canvasContext.beginPath();
+	canvasContext.rect(0,0,this.frameWidth * GLOBAL_PIXEL_SCALE, this.frameHeight * GLOBAL_PIXEL_SCALE);
+	canvasContext.clip();
+
+	this.bubbleMgr.draw( canvasContext );
 
 	canvasContext.restore();
 }

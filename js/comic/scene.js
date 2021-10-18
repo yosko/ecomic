@@ -220,6 +220,5 @@ Scene.prototype.draw = function( canvasContext )
 	}
 
 
-
 	canvasContext.restore();
 }

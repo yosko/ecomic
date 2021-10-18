@@ -156,7 +156,7 @@ SproutKey.prototype.dump = function()
 SproutKey.prototype.setKey = function( keyName, sproutKeyEntry )
 {
 	if( !keyName ) return;
-	if( this[keyName] && !sproutKeyEntry )
+	if( this[keyName] && sproutKeyEntry )
 	{
 		delete this[keyName];
 		return;
