@@ -98,8 +98,11 @@ gData = {
     // list of sprouts. See **Sprouts** section below
     "sprouts": {},
     
-    // list of templates. See **Templates** section below.
-    "templates": {},
+    // list of sprout templates. See **Sprout Templates** section below.
+    "sproutTemplates": {},
+    
+    // list of actor templates. See **Actor Templates** section below.
+    "actorTemplates": {},
     
     // list of backdrops. See **Backdrops** section below.
     "backdrops": {},
@@ -156,16 +159,13 @@ Example:
 },
 ```
 
-In this example, this sprout is a head. Its visual representation is a 26 pixel square and it appears on the "bits" image at {0,23}.
-Its anchor will be {13,23}, which will be at the horizontal center (13 = 26/2) and almost at the bottom (23 on 26): it is the neck.
+In this example, this sprout is a head. Its visual representation is a 26 pixel square and it appears on the "bits" image at {0,23}. Its anchor will be {13,23}, which will be at the horizontal center (13 = 26/2) and almost at the bottom (23 on 26): it is the neck.
 
-This head has a link to a **MOUTH** (the template for a mouth). Note that it is not indicated here which mouth. It is just a link to *a* mouth.
-The link between the mouth and the head will be at {0,-1}, which is relative to the head anchor: the mouth will be 1 pixel above the neck.
+This head has a link to a **MOUTH** (the template for a mouth). Note that it is not indicated here which mouth. It is just a link to *a* mouth. The link between the mouth and the head will be at {0,-1}, which is relative to the head anchor: the mouth will be 1 pixel above the neck.
 
-Templates
+Sprout Templates
 -----
-When applyling an actor's state, it is based on a template, which is a list of sprout keys. For each sprout key,
-the following can be defined (all optional):
+When applyling an actor's state, it is based on a sprout template, which is a list of sprout keys. For each sprout key, the following can be defined (all optional):
 
 * ```sproutName```: a specific sprout.
 * ```offsetx```: apply an horizontal offest to sprout key position.
@@ -182,6 +182,25 @@ Example:
         
     },
     
+},
+```
+
+Actor Templates
+-----
+Define generic style for each actor (currently only speech bubble styles). Available parameters:
+* ```sproutTemplate```: the sprout template it is based on.
+* ```bubbleDefaults``` (optional): speech bubble style for this actor template, containing ```backgroundColor```, ```borderColor```, ```textColor```.
+
+
+Example:
+```js
+"ACTOR_TEMPLATE_NAME": {
+    sproutTemplate: "SPROUT_TEMPLATE_NAME",
+    sproutName: {
+        "backgroundColor": "#000000",
+        "borderColor": "#ffff00",
+        "textColor": "#ffffff"
+    }
 },
 ```
 
@@ -232,7 +251,7 @@ You can define multiple props for a backdrop. These props may represent a door, 
 Scenes
 -----
 
-Scenes can be defined either in the data file along with sprouts, sprout keys and backdrops, or in the comic data file, along with comics.
+Scenes can be defined either in the data file along with sprouts, templates and backdrops, or in the comic data file, along with comics.
 Scenes in comic file override scenes in data file. Examples can be found in the data file (```data_test.js```)
 or the scene file (```data_testscene.js```).
 
@@ -283,6 +302,8 @@ A panel is defined within a comic, and depicts one specific scenes (from the sce
     "panelsWide":1,
     "panelsHigh":1,
     "scene":"Scene_1",
+    "wordBubbles": [],
+    "dialogue": [],
     "sceneUpdates": []  // list of updates (see Scene updates section)
 }
 ```
@@ -320,6 +341,28 @@ What it will look like:
 [ ][ ][    ]
 [          ]
 ```
+
+#### Speech bubbles
+
+Defines the speech bubbles to display & there position. Uses two keys:
+
+* ```wordBubbles```:
+  * defines the style of the bubble (shape, size, position)
+  * ```name```: technical name that might be refered to from ```dialogue``` later.
+  * ```def```: array defining of the bubble style with, in order:
+    * bubble shape: ```bubble```, ```line```, ```box```. There seems to be code for *ceiling bubble*, but it doesn't seem to be used yet.
+    * x position
+    * y position
+    * width
+    * height
+* ```dialogue```:
+  * defines the text in these bubble and who the speaker is (where the tail / pointer will point).
+  * a single key (referencing the name of a previously defined bubble) having the following parameters:
+    * ```textLines```: an array listing each line of text within the bubble.
+    * ```speaker``` (optional): to which actor the tail / pointer should point.
+    * The tail / pointer can be customized further using numeric values for optional parameters: ```pointOffsetX```, ```pointerOriginOffsetX```, ```pointerOriginOffsetY```, ```pointerOriginRadiusL```, ```pointerOriginRadiusR```.
+    * ```textMarginSize```: margin between text and bubble border.
+    * ```bDrawPointer``` (optional): whether to draw the tail / pointer or not (default: ```true```).
 
 #### Scene updates
 
