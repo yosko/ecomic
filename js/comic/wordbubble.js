@@ -23,6 +23,9 @@ function BubbleContext_createDefaults()
 	gBubbleContextDefaults.textOffsetY = 0;
 	gBubbleContextDefaults.bResizeToText = true;
 
+	gBubbleContextDefaults.bOutline = false;
+	gBubbleContextDefaults.outlineColor = "#ffffff";
+
 	gBubbleContextDefaults.bDrawPointer = true;
 	gBubbleContextDefaults.pointToX = 0;
 	gBubbleContextDefaults.pointToY = 0;
@@ -255,6 +258,21 @@ class WordBubble extends BubbleShape
 		{
 			var str = lines[i];
 			var metrics = canvasContext.measureText(str);
+
+			var useOutline = BubbleContext_getVar( bubbleContext, "bOutline", false );
+			if (useOutline) {
+				var outlineColor = BubbleContext_getVar( bubbleContext, "outlineColor", "#ffffff" );
+
+				var textX = x - metrics.width/2;
+				var textY = y + lineHeight * i;
+
+				canvasContext.strokeStyle = outlineColor;
+				canvasContext.lineWidth = 3;
+				canvasContext.miterLimit=2;
+				canvasContext.strokeText(str, textX, textY);
+
+			}
+
 			canvasContext.fillText(str, x - metrics.width/2, y + lineHeight * i);
 		}
 

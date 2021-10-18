@@ -369,16 +369,16 @@ Defines the speech bubbles to display & there position. Uses two keys:
     * bubble shape: ```bubble```, ```line``` (link between bubbles), ```box```. There seems to be code for *ceiling bubble*, but it doesn't seem to be used yet.
     * x position
     * y position
-    * width
-    * height
+    * width (doesn't seem to work)
+    * height (doesn't seem to work)
 * ```dialogue```:
   * defines the text in these bubble and who the speaker is (where the tail / pointer will point).
   * a single key (referencing the name of a previously defined bubble) having the following parameters:
     * ```textLines```: an array listing each line of text within the bubble.
     * ```speaker``` (optional): to which actor the tail / pointer should point.
     * The tail / pointer can be customized further using numeric values for optional parameters: ```pointOffsetX```, ```pointerOriginOffsetX```, ```pointerOriginOffsetY```, ```pointerOriginRadiusL```, ```pointerOriginRadiusR```.
-    * ```textMarginSize```: margin between text and bubble border.
     * ```bDrawPointer``` (optional): whether to draw the tail / pointer or not (default: ```true```).
+    * any of the other parameters defined in a ```BubbleContext``` (see ```BubbleContext_createDefaults()```) to style the bubble (e.g colors, font)
 
 ##### Scene updates
 

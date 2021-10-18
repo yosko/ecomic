@@ -7,26 +7,26 @@ var gData;
 // settings (can be overriden)
 var gSettings = {
 	// Data files and images
-	"BitsFile": "img/bits-maxim.png",
-	"BackdropFile": "img/place/warguild.png",
-	"MastheadImage": "img/masthead.png",
-	"SceneFile": "js/data/data_testscene.json",
+	BitsFile: "img/bits-maxim.png",
+	BackdropFile: "img/place/warguild.png",
+	MastheadImage: "img/masthead.png",
+	SceneFile: "js/data/data_testscene.json",
 
 	// absolute numeric values
-	"FramesPerSecond": 30,
-	"HeaderHeight": 48,
-	"ComicWidth": 640,
-	"GlobalPixelScale": 2, // zoom
+	FramesPerSecond: 30,
+	HeaderHeight: 48,
+	ComicWidth: 640,
+	GlobalPixelScale: 2, // zoom
 
 	// values that will be scaled (multiplied by gSettings.GlobalPixelScale)
-	"PanelRatio": 3.8 / 3, // panel size is {75,95} on Sean Howard's comics, which is close to 4/3 but not quite
-	"BorderSize": 1,
-	"PanelMargin": 1, // margin between panels
-	"ComicMargin": 4, // margin on the left, right and bottom of each comic
-	"PanelsPerRow": 4,
+	PanelRatio: 3.8 / 3, // panel size is {75,95} on Sean Howard's comics, which is close to 4/3 but not quite
+	BorderSize: 1,
+	PanelMargin: 1, // margin between panels
+	ComicMargin: 4, // margin on the left, right and bottom of each comic
+	PanelsPerRow: 4,
 	
-	"backgroundColor": "#ffffff",
-	"borderColor": "#000000",
+	backgroundColor: "#ffffff",
+	borderColor: "#000000",
 	
 	PanelWidth: function(gridWidth = 0) {
 		if (gridWidth > 0) {
