@@ -39,6 +39,25 @@ List of features that were aded here (e.g. things that differ from the original 
 
 Documentation
 =====
+* [Settings](#settings)
+  + [Data object](#data-object)
+    - [Sprouts](#sprouts)
+    - [Sprout Templates](#sprout-templates)
+    - [Actor Templates](#actor-templates)
+    - [Backdrops](#backdrops)
+    - [Scenes](#scenes)
+* [Scene file](#scene-file)
+  + [Scenes](#scenes-1)
+    - [Actors](#actors)
+  + [Comics](#comics)
+    - [Panels](#panels)
+      * [Speech bubbles](#speech-bubbles)
+      * [Scene updates](#scene-updates)
+        + [Focus updates](#focus-updates)
+        + [Backdrop updates](#backdrop-updates)
+        + [Actor position and layer updates</h6>](#actor-position-and-layer-updates--h6-)
+        + [Actor state updates](#actor-state-updates)
+
 
 Settings
 -----
@@ -86,8 +105,7 @@ gSettings.borderColor = "#000000";
 gData = {};
 ```
 
-Data object
------
+### Data object
 The data that can define sprouts, templates and backdrops is in the form of a Javascript object sent to ```initDataFile()```
 ressembling the following:
 ```js
@@ -111,24 +129,9 @@ gData = {
     "scenes": {},
 }
 ```
-
-Scene file
------
-The scene file that can define scenes and comics (strips/pages) is in the form of a JSON object sent to ```fetchDefaultSceneFile()```
-(so that it appears in the textarea). Once in the textarea, this content can be used calling ```loadSceneJSON()```.
-
-Base content (a list of scenes and a list of comics, both described in the following sections):
-```js
-{
-    "scenes" : {},
-    "comics" : []
-}
-```
-
-Each of its part are documented below.
             
-Sprouts
------
+#### Sprouts
+
 Each sprout represant either a visual element or a container linked to other visual element (children). It can be both!.
 
 Note that every children will be displayed **above** their parent and in the order of the links definition.
@@ -163,8 +166,7 @@ In this example, this sprout is a head. Its visual representation is a 26 pixel 
 
 This head has a link to a **MOUTH** (the template for a mouth). Note that it is not indicated here which mouth. It is just a link to *a* mouth. The link between the mouth and the head will be at {0,-1}, which is relative to the head anchor: the mouth will be 1 pixel above the neck.
 
-Sprout Templates
------
+#### Sprout Templates
 When applyling an actor's state, it is based on a sprout template, which is a list of sprout keys. For each sprout key, the following can be defined (all optional):
 
 * ```sproutName```: a specific sprout.
@@ -185,8 +187,7 @@ Example:
 },
 ```
 
-Actor Templates
------
+#### Actor Templates
 Define generic style for each actor (currently only speech bubble styles). Available parameters:
 * ```sproutTemplate```: the sprout template it is based on.
 * ```bubbleDefaults``` (optional): speech bubble style for this actor template, containing ```backgroundColor```, ```borderColor```, ```textColor```.
@@ -204,8 +205,7 @@ Example:
 },
 ```
 
-Backdrops
------
+#### Backdrops
 A backdrop is a background image depicting a place, and a number of layers in which can be placed actors or other specific elements of the background (called *props*)
 that can appear above actors and/or can (dis)appear.
 
@@ -248,8 +248,25 @@ You can define multiple props for a backdrop. These props may represent a door, 
   their ```{width,height}``` and the ```{drawx,drawy}``` coordinates where they should appear in the backdrop.
 * Each prop can be flipped horizontally by adding ```flipped:true``` and/or vertically by adding ```vflipped:true```.
 
-Scenes
+#### Scenes
+Scenes can be defined here, or in the scene file. This parameter is documented in the Scene file section below.
+
+Scene file
 -----
+The scene file that can define scenes and comics (strips/pages) is in the form of a JSON object sent to ```fetchDefaultSceneFile()```
+(so that it appears in the textarea). Once in the textarea, this content can be used calling ```loadSceneJSON()```.
+
+Base content (a list of scenes and a list of comics, both described in the following sections):
+```js
+{
+    "scenes" : {},
+    "comics" : []
+}
+```
+
+Each of its part are documented below.
+
+### Scenes
 
 Scenes can be defined either in the data file along with sprouts, templates and backdrops, or in the comic data file, along with comics.
 Scenes in comic file override scenes in data file. Examples can be found in the data file (```data_test.js```)
@@ -268,7 +285,7 @@ or the scene file (```data_testscene.js```).
 },
 ```
 
-### Actors
+#### Actors
 * ```templateName```: template name (without the _DEFAULT nor any other suffix)
 * ```sweetSpot```: sweet spot where to place actor
 * ```x```: coordinates where to place actor
@@ -278,8 +295,7 @@ or the scene file (```data_testscene.js```).
 * ```vflipped```: indicates if actor should be flipped vertically.
 * ```state```: (array) apply a list of states defined alongside with the templates
 
-Comics
------
+### Comics
 
 A comic is a page/strip. It can be constituted of one or more rows of panels Comics are defined in ```data_testscene.js```.
 
@@ -292,7 +308,7 @@ A comic is a page/strip. It can be constituted of one or more rows of panels Com
 }
 ```
 
-### Panels
+#### Panels
 A panel is defined within a comic, and depicts one specific scenes (from the scenes declared before).
 
 ```js
@@ -342,7 +358,7 @@ What it will look like:
 [          ]
 ```
 
-#### Speech bubbles
+##### Speech bubbles
 
 Defines the speech bubbles to display & there position. Uses two keys:
 
@@ -364,27 +380,27 @@ Defines the speech bubbles to display & there position. Uses two keys:
     * ```textMarginSize```: margin between text and bubble border.
     * ```bDrawPointer``` (optional): whether to draw the tail / pointer or not (default: ```true```).
 
-#### Scene updates
+##### Scene updates
 
 List of updates to apply to the scene from this point/panel and beyond.
 
-##### Focus updates
+###### Focus updates
 * ```["focusOn", "ACTOR_NAME"]```: defines **actor** to set focus on
 * ```["focusOnSpot", "SPOT_NAME"]```: defines current backdrop's **sweet spot** to set focus on
 * ```["focusBetween", "ACTOR_NAME_1", "ACTOR_NAME_2"]```: defines two actors to set focus in between.
 * ```["focusAt", X_COORD, Y_COORD]```: defines **absolute coordinates** to set focus on.
 * ```["shiftFocus", X_COORDINATE, Y_COORD]```: defines coordinates to set focus on, **relative to previous focus**.
 
-##### Backdrop updates
+###### Backdrop updates
 * ```["changeBackdropState", "TRIGGER_NAME", BOOL_VALUE]```: change state of an existing trigger defined for this background.</li>
 
-##### Actor position and layer updates</h6>
+###### Actor position and layer updates</h6>
 * ```["actorMoveToSpot", "ACTOR_NAME", "SPOT_NAME"]```: move actor to current backdrop's sweet spot.
 * ```["actorMoveTo", "ACTOR_NAME", X_COORD, Y_COORD]```: move actor to absolute coordinates.
 * ```["actorShift", "ACTOR_NAME", X_COORD, Y_COORD]```: move actor to coordinates relative to his/her previous position.
 * ```["actorChangeLayer", "ACTOR_NAME", LAYER_ID]```: move actor to another layer (to place him/her behind or in front of other elements).
 
-##### Actor state updates
+###### Actor state updates
 * ```["actorReset", "ACTOR_NAME"]```: rest actor to his/her original state.
 * ```["actorFlip", "ACTOR_NAME", BOOL_VALUE]```: indicates if actor should be horizontally flipped (change direction (s)he is looking).
 * ```["actorVerticalFlip", "ACTOR_NAME", BOOL_VALUE]```: indicates if actor should be vertically flipped (upside down).
