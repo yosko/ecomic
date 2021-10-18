@@ -71,7 +71,7 @@ var gData_Test = {
 	}, // end sprouts
 
 
-	templates: {
+	sproutTemplates: {
 		"MAXIM_DEFAULT" : {
 			"ROOT" : {sproutName:"HUMAN_ROOT"},
 			"SHADOW":{sproutName:"HUMAN_SHADOW", alpha:0.30},
@@ -95,6 +95,20 @@ var gData_Test = {
 			"BODY": {offsety:-8},
 		}
 	}, // end templates
+
+	actorTemplates: {
+		"MAXIM": {
+			sproutTemplate: "MAXIM",
+		},
+		"MAXIM_BLUE": {
+			sproutTemplate: "MAXIM",
+			bubbleDefaults: {
+				"backgroundColor":"#000000",
+				"borderColor":"#ffff00",
+				"textColor":"#ffffff"
+			}
+		}
+	},
 
 	backdrops: {
 		"WARRIORS_GUILD" : {

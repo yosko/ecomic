@@ -17,7 +17,7 @@ function BackdropDB_registerBackdrop( name, backdrop )
 		console.log("BackdropDB_registerBackdrop('"+name+"',"+backdrop+") failed.");
 		return;
 	}
-	if( gSproutDB[name] )
+	if( gBackdropDB[name] )
 	{
 		console.log("BackdropDB_registerBackdrop('"+name+"',"+backdrop+") -- name already exists.");
 		return;

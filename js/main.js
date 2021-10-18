@@ -26,14 +26,16 @@ function drawScreen()
 
 	canvasContext.save();
 	canvasContext.imageSmoothingEnabled = false;
-	canvasContext.scale(GLOBAL_PIXEL_SCALE,GLOBAL_PIXEL_SCALE);
+	//canvasContext.scale(GLOBAL_PIXEL_SCALE,GLOBAL_PIXEL_SCALE);
 
 	canvasContext.fillStyle = "#ffffff";
-	canvasContext.fillRect( 0, 0, w/2, h/2 );
+	canvasContext.fillRect( 0, 0, w, h );
 
 	gCurrentComic.draw( canvasContext );
 
 	canvasContext.restore();
+
+	// Draw Masthead
 	var img = ImageDB_imageWithName(gMastheadImage);
 	canvasContext.drawImage( img, 0, 0 );
 }
@@ -163,6 +165,8 @@ function PrototypeApp()
 	function initializeGame()
 	{
 		initDataFile( gData_Test );
+
+		BubbleContext_createDefaults();
 
 		//ImageDB_dump();
 		//SproutDB_dump();
