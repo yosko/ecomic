@@ -233,12 +233,16 @@ function PrototypeApp()
 	}
 
 	function fetchDefaultSceneFile(path) {
+		// Default scene file is a required "asset" to run the app
+		numAssetsToLoad++;
+
 	    var httpRequest = new XMLHttpRequest();
 	    httpRequest.onreadystatechange = function() {
 	        if (httpRequest.readyState === 4) {
 	            if (httpRequest.status === 200) {
 			        var textArea = document.getElementById("sceneTextArea");
 					textArea.value = httpRequest.responseText;
+					assetLoaded();
 	            }
 	        }
 	    };

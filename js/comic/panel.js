@@ -139,7 +139,7 @@ ComicPanel.prototype.draw = function( canvasContext )
 	//.. Draw panels and scenes in panel at small scale
 	//..
 	canvasContext.save();
-	canvasContext.scale(GLOBAL_PIXEL_SCALE,GLOBAL_PIXEL_SCALE);
+	canvasContext.scale(gSettings.GlobalPixelScale, gSettings.GlobalPixelScale);
 
 	// Draw panel borders
 	canvasContext.fillStyle = gSettings.borderColor;
@@ -166,9 +166,9 @@ ComicPanel.prototype.draw = function( canvasContext )
 	canvasContext.save();
 
 	// Clip word bubbles to panel
-	canvasContext.translate( this.screenx * GLOBAL_PIXEL_SCALE, this.screeny * GLOBAL_PIXEL_SCALE );
+	canvasContext.translate( this.screenx * gSettings.GlobalPixelScale, this.screeny * gSettings.GlobalPixelScale );
 	canvasContext.beginPath();
-	canvasContext.rect(0,0,this.frameWidth * GLOBAL_PIXEL_SCALE, this.frameHeight * GLOBAL_PIXEL_SCALE);
+	canvasContext.rect(0,0,this.frameWidth * gSettings.GlobalPixelScale, this.frameHeight * gSettings.GlobalPixelScale);
 	canvasContext.clip();
 
 	this.bubbleMgr.draw( canvasContext );
